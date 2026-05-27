@@ -47,7 +47,7 @@ run_one_model() {
             --mode target \
             --optimization "$OPT" \
             --name "$NAME" \
-            --verbosity $VERBOSITY \
+            --verbosity "$VERBOSITY" \
             --c-api "$C_API" \
             --target "$TARGET" \
             --workspace "$WS_DIR" \
@@ -70,7 +70,7 @@ run_one_model() {
             --mode target \
             --optimization "$OPT" \
             --name "$NAME" \
-            --verbosity $VERBOSITY \
+            --verbosity "$VERBOSITY" \
             --c-api "$C_API" \
             --target "$TARGET" \
             --workspace "$WS_DIR" \
