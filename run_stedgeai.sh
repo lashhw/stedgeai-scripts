@@ -33,13 +33,13 @@ mkdir -p "$RESULTS_DIR"
 run_one_model() {
     local MODEL_FILE="$1"
     local RUN_DIR="$2"
+    local WS_DIR="$RUN_DIR/st_ai_ws"
+    local OUT_DIR="$RUN_DIR/st_ai_output"
 
-    for _ in 1; do
-        local WS_DIR="$RUN_DIR/st_ai_ws"
-        local OUT_DIR="$RUN_DIR/st_ai_output"
+    (
+        set -e
 
         echo "=== GENERATE ==="
-
         "$STEDGEAI" generate \
             --model "$MODEL_FILE" \
             --batch-size "$BATCH_SIZE" \
@@ -51,20 +51,17 @@ run_one_model() {
             --workspace "$WS_DIR" \
             --output "$PROJECT_DIR" \
             --memory-pool "$MEMPOOL_FILE" \
-            --quiet || break
+            --quiet
 
         echo "==== BUILD ===="
-
-        make -C "$BUILD_DIR" clean || break
-        make -C "$BUILD_DIR" -j8 all || break
+        make -C "$BUILD_DIR" clean
+        make -C "$BUILD_DIR" -j8 all
 
         echo "=== FLASH ==="
-
-        "$PROGRAMMER" -c port=SWD -w "$ELF_FILE" -v -rst || break
-        sleep "$AFTER_FLASH_SLEEP_TIME" || break
+        "$PROGRAMMER" -c port=SWD -w "$ELF_FILE" -v -rst
+        sleep "$AFTER_FLASH_SLEEP_TIME"
 
         echo "=== VALIDATE ==="
-
         "$STEDGEAI" validate \
             --model "$MODEL_FILE" \
             --batch-size "$BATCH_SIZE" \
@@ -77,14 +74,14 @@ run_one_model() {
             --output "$OUT_DIR" \
             --desc "$SERIAL_DESC" \
             --memory-pool "$MEMPOOL_FILE" \
-            --quiet || break
+            --quiet
+    )
 
+    if [ $? -eq 0 ]; then
         echo "=== SUCCESS ==="
-        return 0
-    done
-
-    echo "=== FAIL ==="
-    return 1
+    else
+        echo "=== FAIL ==="
+    fi
 }
 
 for MODEL_FILE in "$MODELS_DIR"/*.tflite; do
