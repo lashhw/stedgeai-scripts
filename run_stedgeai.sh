@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export PATH="/opt/st/stm32cubeide_2.1.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.linux64_1.0.100.202602081740/tools/bin:$PATH"
 
 STEDGEAI="/opt/ST/STEdgeAI/4.0/Utilities/linux/stedgeai"
@@ -54,8 +56,7 @@ run_one_model() {
         echo "=== FLASH ==="
 
         "$PROGRAMMER" -c port=SWD -w "$ELF_FILE" -v -rst || break
-
-        sleep "$AFTER_FLASH_SLEEP_TIME"
+        sleep "$AFTER_FLASH_SLEEP_TIME" || break
 
         echo "=== VALIDATE ==="
 
