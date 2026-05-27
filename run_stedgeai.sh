@@ -18,11 +18,12 @@ ELF_FILE="$BUILD_DIR/run-1.elf"
 MODELS_DIR="$1"
 RESULTS_DIR="$PWD/results"
 
-TARGET="stm32f7"
-NAME="network"
 BATCH_SIZE="1"
 OPT="balanced"
+NAME="network"
+VERBOSITY="1"
 C_API="st-ai"
+TARGET="stm32f7"
 SERIAL_DESC="serial:/dev/ttyACM0:115200"
 
 AFTER_FLASH_SLEEP_TIME="3s"
@@ -46,6 +47,7 @@ run_one_model() {
             --mode target \
             --optimization "$OPT" \
             --name "$NAME" \
+            --verbosity $VERBOSITY \
             --c-api "$C_API" \
             --target "$TARGET" \
             --workspace "$WS_DIR" \
@@ -68,12 +70,14 @@ run_one_model() {
             --mode target \
             --optimization "$OPT" \
             --name "$NAME" \
+            --verbosity $VERBOSITY \
             --c-api "$C_API" \
             --target "$TARGET" \
             --workspace "$WS_DIR" \
             --output "$OUT_DIR" \
-            --desc "$SERIAL_DESC" \
             --memory-pool "$MEMPOOL_FILE" \
+            --desc "$SERIAL_DESC" \
+            --save-csv \
             --quiet
     )
 
