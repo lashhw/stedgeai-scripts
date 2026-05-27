@@ -31,7 +31,7 @@ AFTER_FLASH_SLEEP_TIME="3s"
 rm -rf "$RESULTS_DIR"
 mkdir -p "$RESULTS_DIR"
 
-run_one_model() {
+run_model() {
     local MODEL_FILE="$1"
     local RUN_DIR="$2"
     local WS_DIR="$RUN_DIR/st_ai_ws"
@@ -92,7 +92,7 @@ for MODEL_FILE in "$MODELS_DIR"/*.tflite; do
     RUN_DIR="$RESULTS_DIR/$(basename "$MODEL_FILE" .tflite)"
     mkdir -p "$RUN_DIR"
     LOG_FILE="$RUN_DIR/run.log"
-    run_one_model "$MODEL_FILE" "$RUN_DIR" >> "$LOG_FILE" 2>&1
+    run_model "$MODEL_FILE" "$RUN_DIR" >> "$LOG_FILE" 2>&1
 done
 
 echo "All jobs finished."
