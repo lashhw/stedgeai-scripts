@@ -74,11 +74,11 @@ run_one_model() {
             --memory-pool "$MEMPOOL_FILE" \
             --quiet || break
 
-        echo "=== DONE: $MODEL_FILE ==="
+        echo "=== SUCCESS ==="
         return 0
     done
 
-    echo "=== FAIL: $MODEL_FILE ==="
+    echo "=== FAIL ==="
     return 1
 }
 
