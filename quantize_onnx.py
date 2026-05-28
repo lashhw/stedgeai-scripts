@@ -12,6 +12,7 @@ from onnxruntime.quantization import (
 )
 from onnxruntime.quantization.shape_inference import quant_pre_process
 
+
 class DummyCalibrationDataReader(CalibrationDataReader):
     def __init__(self, input_name, input_shape, num_samples):
         rng = np.random.default_rng(0)
