@@ -26,8 +26,6 @@ C_API="st-ai"
 TARGET="stm32f7"
 SERIAL_DESC="serial:/dev/ttyACM0:115200"
 
-AFTER_FLASH_SLEEP_TIME="3s"
-
 rm -rf "$RESULTS_DIR"
 mkdir -p "$RESULTS_DIR"
 
@@ -61,7 +59,7 @@ run_model() {
 
         echo "=== FLASH ==="
         "$PROGRAMMER" -c port=SWD -w "$ELF_FILE" -v -rst
-        sleep "$AFTER_FLASH_SLEEP_TIME"
+        sleep 10s
 
         echo "=== VALIDATE ==="
         "$STEDGEAI" validate \
