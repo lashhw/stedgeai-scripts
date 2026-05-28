@@ -87,6 +87,7 @@ run_model() {
 }
 
 for MODEL_FILE in "$MODELS_DIR"/*.tflite "$MODELS_DIR"/*.onnx; do
+    test -f "$MODEL_FILE" || continue
     MODEL_NAME=$(basename "${MODEL_FILE%.*}")
     RUN_DIR="$RESULTS_DIR/$MODEL_NAME"
     mkdir -p "$RUN_DIR"
