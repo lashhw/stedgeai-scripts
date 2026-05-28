@@ -31,6 +31,7 @@ done
 
 (
     cd "$TEMP_DIR" || exit 1
+    rm -f "$OUTPUT_ZIP"
     zip -rq "$OUTPUT_ZIP" log report
 )
 rm -rf "$TEMP_DIR"
