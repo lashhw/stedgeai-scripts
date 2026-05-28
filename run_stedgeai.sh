@@ -87,10 +87,10 @@ run_model() {
 }
 
 for MODEL_FILE in "$MODELS_DIR"/*.tflite; do
-    RUN_DIR="$RESULTS_DIR/$(basename "$MODEL_FILE" .tflite)"
+    MODEL_NAME="$(basename "$MODEL_FILE" .tflite)"
+    RUN_DIR="$RESULTS_DIR/$MODEL_NAME"
     mkdir -p "$RUN_DIR"
-    LOG_FILE="$RUN_DIR/run.log"
-    run_model "$MODEL_FILE" "$RUN_DIR" >> "$LOG_FILE" 2>&1
+    run_model "$MODEL_FILE" "$RUN_DIR" > "$RUN_DIR/run.log" 2>&1
 done
 
 echo "All jobs finished."
