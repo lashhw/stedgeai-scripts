@@ -70,7 +70,6 @@ def quantize_onnx_model(input_model_path, output_model_path):
             quant_format=QuantFormat.QDQ,
             activation_type=QuantType.QInt8,
             weight_type=QuantType.QInt8,
-            per_channel=True,
         )
     finally:
         if os.path.exists(converted_model_path):
