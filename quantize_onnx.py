@@ -42,13 +42,18 @@ def get_input_shape(model_input):
 
 def quantize_onnx_model(input_model_path, output_model_path):
     with tempfile.NamedTemporaryFile(suffix=".onnx", delete=False) as f:
+        converted_model_path = f.name
+    with tempfile.NamedTemporaryFile(suffix=".onnx", delete=False) as f:
         preprocessed_model_path = f.name
 
     try:
-        quant_pre_process(input_model_path, preprocessed_model_path)
+        model = onnx.load(input_model_path)
+        converted_model = onnx.version_converter.convert_version(model, 13)
+        onnx.save(converted_model, converted_model_path)
+        quant_pre_process(converted_model_path, preprocessed_model_path)
 
-        model = onnx.load(preprocessed_model_path)
-        input_tensor = model.graph.input[0]
+        preprocessed_model = onnx.load(preprocessed_model_path)
+        input_tensor = preprocessed_model.graph.input[0]
         input_name = input_tensor.name
         input_shape = get_input_shape(input_tensor)
 
@@ -68,6 +73,8 @@ def quantize_onnx_model(input_model_path, output_model_path):
             per_channel=True,
         )
     finally:
+        if os.path.exists(converted_model_path):
+            os.remove(converted_model_path)
         if os.path.exists(preprocessed_model_path):
             os.remove(preprocessed_model_path)
 
