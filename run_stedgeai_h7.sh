@@ -63,13 +63,11 @@ run_model() {
         make -C "$BUILD_DIR_CM4" clean
         make -C "$BUILD_DIR_CM4" -j8 all
 
-        echo "=== FLASH CM7 ==="
-        "$PROGRAMMER" -c port=SWD -w "$ELF_FILE_CM7" -v -rst
-        sleep 5s
-
-        echo "=== FLASH CM4 ==="
-        "$PROGRAMMER" -c port=SWD -w "$ELF_FILE_CM4" -v -rst
-        sleep 5s
+        echo "=== FLASH ==="
+        "$PROGRAMMER" -c port=SWD freq=8000 mode=UR reset=HWrst -e all
+        "$PROGRAMMER" -c port=SWD freq=8000 mode=UR reset=HWrst -d "$ELF_FILE_CM7" -v
+        "$PROGRAMMER" -c port=SWD freq=8000 mode=UR reset=HWrst -d "$ELF_FILE_CM4" -v -s 0x08000000
+        sleep 10s
 
         echo "=== VALIDATE ==="
         "$STEDGEAI" validate \
