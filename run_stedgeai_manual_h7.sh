@@ -13,8 +13,8 @@ PROGRAMMER="/opt/st/stm32cubeide_2.1.1/plugins/com.st.stm32cube.ide.mcu.external
 PROJECT_DIR="$HOME/.stm32cubeaistudio/workspace/manual_h7"
 MY_MODEL_NAME_FILE="$PROJECT_DIR/CM7/Core/Inc/my_model_name.h"
 MEMPOOL_FILE="$PROJECT_DIR/.ai/mempools.json"
-BUILD_DIR_CM7="$PROJECT_DIR/STM32CubeIDE/CM7/Release"
-ELF_FILE_CM7="$BUILD_DIR_CM7/manual_h7_CM7.elf"
+BUILD_DIR="$PROJECT_DIR/STM32CubeIDE/CM7/Release"
+ELF_FILE="$BUILD_DIR/manual_h7_CM7.elf"
 
 MODELS_DIR="$1"
 RESULTS_DIR="$PWD/results"
@@ -55,11 +55,11 @@ run_model() {
             --quiet
 
         echo "==== BUILD ===="
-        make -C "$BUILD_DIR_CM7" clean
-        make -C "$BUILD_DIR_CM7" -j8 all
+        make -C "$BUILD_DIR" clean
+        make -C "$BUILD_DIR" -j8 all
 
         echo "=== FLASH ==="
-        "$PROGRAMMER" -c port=SWD -w "$ELF_FILE_CM7" -v -rst
+        "$PROGRAMMER" -c port=SWD -w "$ELF_FILE" -v -rst
         sleep 10s
     )
 
