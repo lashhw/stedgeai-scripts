@@ -10,11 +10,11 @@ export PATH="/opt/st/stm32cubeide_2.1.1/plugins/com.st.stm32cube.ide.mcu.externa
 STEDGEAI="/opt/ST/STEdgeAI/4.0/Utilities/linux/stedgeai"
 PROGRAMMER="/opt/st/stm32cubeide_2.1.1/plugins/com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.linux64_2.2.400.202601091506/tools/bin/STM32_Programmer_CLI"
 
-PROJECT_DIR="$HOME/.stm32cubeaistudio/workspace/manual_external"
+PROJECT_DIR="$HOME/.stm32cubeaistudio/workspace/manual"
 MY_MODEL_NAME_FILE="$PROJECT_DIR/Core/Inc/my_model_name.h"
 MEMPOOL_FILE="$PROJECT_DIR/.ai/mempools.json"
 BUILD_DIR="$PROJECT_DIR/STM32CubeIDE/Release"
-ELF_FILE="$BUILD_DIR/manual_external.elf"
+ELF_FILE="$BUILD_DIR/manual.elf"
 
 MODELS_DIR="$1"
 RESULTS_DIR="$PWD/results"
