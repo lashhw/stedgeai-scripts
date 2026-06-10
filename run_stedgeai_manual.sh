@@ -57,6 +57,7 @@ run_model() {
         echo "==== BUILD ===="
         make -C "$BUILD_DIR" clean
         make -C "$BUILD_DIR" -j8 all
+        cp "$ELF_FILE" "$RUN_DIR"
 
         echo "=== FLASH ==="
         "$PROGRAMMER" -c port=SWD -w "$ELF_FILE" -v -rst
