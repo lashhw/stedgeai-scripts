@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-    echo "usage: $0 MODELS_DIR"
+    echo "usage: $0 MODELS_FILE"
     exit 1
 fi
 
@@ -14,16 +14,15 @@ HEADER_FILE="$PROJECT_DIR/Core/Inc/run_tflm.h"
 BUILD_DIR="$PROJECT_DIR/STM32CubeIDE/Release"
 ELF_FILE="$BUILD_DIR/tflm.elf"
 
-MODELS_DIR="$1"
+MODELS_FILE="$1"
 RESULTS_DIR="$PWD/results"
 
 rm -rf "$RESULTS_DIR"
 mkdir -p "$RESULTS_DIR"
 
 run_model() {
-    local MODEL_FILE="$1"
-    local MODEL_NAME="$2"
-    local RUN_DIR="$3"
+    local MODEL_NAME="$1"
+    local RUN_DIR="$2"
 
     (
         set -e
@@ -47,13 +46,12 @@ run_model() {
     fi
 }
 
-for MODEL_FILE in "$MODELS_DIR"/*.tflite; do
-    test -f "$MODEL_FILE" || continue
-    MODEL_NAME=$(basename "${MODEL_FILE%.*}")
+while read -r MODEL_NAME; do
+    if [ -z "$MODEL_NAME" ]; then continue; fi
     RUN_DIR="$RESULTS_DIR/$MODEL_NAME"
     mkdir -p "$RUN_DIR"
-    run_model "$MODEL_FILE" "$MODEL_NAME" "$RUN_DIR" > "$RUN_DIR/run.log" 2>&1
-done
+    run_model "$MODEL_NAME" "$RUN_DIR" > "$RUN_DIR/run.log" 2>&1
+done < "$MODELS_FILE"
 
 echo "All jobs finished."
 echo "Results are in: $RESULTS_DIR"
