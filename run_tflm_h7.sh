@@ -5,6 +5,8 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+export PATH="/opt/st/stm32cubeide_2.1.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.linux64_1.0.100.202602081740/tools/bin:$PATH"
+
 PROGRAMMER="/opt/st/stm32cubeide_2.1.1/plugins/com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.linux64_2.2.400.202601091506/tools/bin/STM32_Programmer_CLI"
 
 PROJECT_DIR="$HOME/STM32CubeIDE/workspace_2.1.1/tflm_h7"
