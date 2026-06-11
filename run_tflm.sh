@@ -35,7 +35,6 @@ run_model() {
 
         echo "=== FLASH ==="
         "$PROGRAMMER" -c port=SWD -w "$ELF_FILE" -v -rst
-
         sleep 10s
     )
 
